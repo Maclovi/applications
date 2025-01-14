@@ -9,6 +9,6 @@ class SortOrder(str, Enum):
 
 @dataclass(frozen=True)
 class Pagination:
-    offset: int | None = None
-    limit: int | None = None
+    page: int | None = None
+    size: int | None = None
     order: SortOrder = SortOrder.ASC

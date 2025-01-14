@@ -15,6 +15,3 @@ class Transaction(Protocol):
 class EntitySaver:
     @abstractmethod
     def add_one(self, entity: Entity[OIDType]) -> None: ...
-
-    @abstractmethod
-    async def delete(self, entity: Entity[OIDType]) -> None: ...
