@@ -1,0 +1,150 @@
+[build-system]
+requires = ["setuptools>=66.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project]
+name = "applications"
+dynamic = ["version"]
+description = "Service for processing user requests"
+requires-python = ">=3.10"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    { name = "Sergey Yavorsky", email = "maclovi.dev@gmail.com" },
+]
+classifiers = [
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Typing :: Typed",
+]
+dependencies = [
+    "dishka==1.*",
+    "uvloop==0.21.*",
+    "orjson==3.*",
+    "fastapi==0.115.*",
+    "uvicorn==0.31.*",
+    "httptools==0.6.*",
+    "alembic==1.13.*",
+    "sqlalchemy[asyncio]==2.*",
+    "psycopg[binary]==3.*",
+    "python-json-logger==2.*",
+]
+
+[project.optional-dependencies]
+test = [
+    "coverage[toml]==7.*",
+    "pytest",
+    "pytest-asyncio",
+    "httpx==0.28.*",
+]
+lint = [
+    "ruff",
+    "bandit",
+    "semgrep",
+    "codespell",
+    #types
+    "mypy",
+    "basedpyright",
+]
+dev = [
+    "applications[test,lint]",
+    "pre-commit==4.*",
+    "detect-secrets==1.*",
+]
+
+[project.urls]
+Homepage = "https://github.com/Maclovi/applications"
+Documentation = "https://github.com/Maclovi/applications/README.md"
+Repository = "https://github.com/Maclovi/applications"
+Issues = "https://github.com/Maclovi/applications/issues"
+
+[tool.pytest.ini_options]
+xfail_strict = true
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "session"
+markers = []
+
+[tool.basedpyright]
+include = ["src", "tests"]
+ignore = ["**/__pycache__", "**/alembic"]
+pythonVersion = "3.10"
+reportAny = false
+
+[tool.mypy]
+packages = ["src", "tests"]
+python_version = "3.10"
+
+strict = true
+pretty = true
+warn_return_any = true
+warn_unreachable = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+allow_redefinition = true
+allow_untyped_calls = true
+disallow_any_explicit = false
+disallow_any_generics = false
+disallow_subclassing_any = false
+disallow_untyped_decorators = false
+show_error_codes = true
+show_error_context = true
+show_column_numbers = true
+check_untyped_defs = true
+namespace_packages = true
+ignore_missing_imports = true
+
+[tool.ruff]
+src = ["src"]
+include = ["src/**.py", "tests/**.py"]
+target-version = "py310"
+line-length = 79
+fix = true
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = ["D"]
+
+[tool.ruff.lint.per-file-ignores]
+"src/applications/infrastructure/persistence/alembic/**" = ["ERA001", "INP001"]
+"src/applications/application/**" = ["S101"]
+"tests/**" = ["S101"]
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.ruff.lint.isort]
+known-first-party = ["src", "tests"]
+no-lines-before = ["local-folder"]
+
+[tool.coverage.run]
+parallel = true
+branch = true
+concurrency = ["thread", "multiprocessing"]
+source = ["src", "tests"]
+omit = ["**/__init__.py"]
+
+[tool.coverage.report]
+show_missing = true
+skip_empty = true
+exclude_also = [
+    'if TYPE_CHECKING:',
+    "if __name__ == .__main__.:",
+    '@(abc\.)?abstractmethod',
+    "raise NotImplementedError",
+    "pass",
+    '\.\.\.',
+]
+omit = [
+    '*/__init__.py',
+]
