@@ -10,11 +10,11 @@ from applications.entities.common.value_objects import Username
 class ApplicationService:
     @staticmethod
     def create_application(
-        user_name: Username,
-        description: ApplicationDescription,
+        user_name: str,
+        description: str,
     ) -> Application:
         return Application(
             oid=cast(ApplicationID, cast(object, None)),
-            user_name=user_name,
-            description=description,
+            user_name=Username(user_name),
+            description=ApplicationDescription(description),
         )
