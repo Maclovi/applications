@@ -3,8 +3,12 @@ from unittest import mock
 
 import pytest
 
-from applications.usecases.common.ports.application import ApplicationReader
-from applications.usecases.common.ports.view_models import ApplicationView
+from applications.usecases.common.persistence.application import (
+    ApplicationReader,
+)
+from applications.usecases.common.persistence.view_models import (
+    ApplicationView,
+)
 
 
 @pytest.fixture

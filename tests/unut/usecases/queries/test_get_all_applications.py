@@ -1,10 +1,10 @@
 from datetime import datetime, timezone
 from unittest import mock
 
-from applications.usecases.common.ports.application import (
+from applications.usecases.common.persistence.application import (
     ApplicationReaderFilters,
 )
-from applications.usecases.common.ports.filters import Pagination
+from applications.usecases.common.persistence.filters import Pagination
 from applications.usecases.queries.get_all_applications import (
     GetApplicationsQuery,
     GetApplicationsQueryHandler,

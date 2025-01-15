@@ -1,3 +1,6 @@
+from datetime import datetime
+from typing import cast
+
 from applications.entities.application.services import ApplicationService
 from applications.entities.application.value_objects import (
     ApplicationDescription,
@@ -12,4 +15,5 @@ def test_create_application() -> None:
     )
     assert isinstance(application.user_name, Username)
     assert isinstance(application.description, ApplicationDescription)
-    assert application.oid is None
+    assert application.oid is cast(int, cast(object, None))
+    assert application.created_at is cast(datetime, cast(object, None))

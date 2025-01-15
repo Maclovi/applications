@@ -3,8 +3,11 @@ from typing import final
 
 from applications.entities.application.models import ApplicationID
 from applications.entities.application.services import ApplicationService
+from applications.usecases.common.persistence.transaction import (
+    EntitySaver,
+    Transaction,
+)
 from applications.usecases.common.publisher import ApplicationPublisher
-from applications.usecases.common.transaction import EntitySaver, Transaction
 
 
 @dataclass(frozen=True, slots=True)

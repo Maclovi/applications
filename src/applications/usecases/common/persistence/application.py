@@ -3,8 +3,10 @@ from dataclasses import dataclass
 from typing import Protocol
 
 from applications.entities.common.value_objects import Username
-from applications.usecases.common.ports.filters import Pagination
-from applications.usecases.common.ports.view_models import ApplicationView
+from applications.usecases.common.persistence.filters import Pagination
+from applications.usecases.common.persistence.view_models import (
+    ApplicationView,
+)
 
 
 @dataclass(frozen=True, slots=True)

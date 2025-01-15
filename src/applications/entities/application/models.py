@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from datetime import datetime
 from typing import NewType
 
 from applications.entities.application.value_objects import (
@@ -14,3 +15,4 @@ ApplicationID = NewType("ApplicationID", int)
 class Application(Entity[ApplicationID]):
     user_name: Username
     description: ApplicationDescription
+    created_at: datetime

@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import cast
 
 from applications.entities.application.models import Application, ApplicationID
@@ -17,4 +18,5 @@ class ApplicationService:
             oid=cast(ApplicationID, cast(object, None)),
             user_name=Username(user_name),
             description=ApplicationDescription(description),
+            created_at=cast(datetime, cast(object, None)),
         )
