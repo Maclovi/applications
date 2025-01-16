@@ -1,21 +1,11 @@
-from dataclasses import dataclass
 from os import environ as env
 
-from applications.infrastructure.broker.config import KafkaConfig
-from applications.infrastructure.persistence.config import PostgresConfig
-
-
-@dataclass(frozen=True, slots=True)
-class APIConfig:
-    host: str
-    port: str
-
-
-@dataclass(frozen=True, slots=True)
-class Configs:
-    kafka: KafkaConfig
-    postgres: PostgresConfig
-    web: APIConfig
+from applications.infrastructure.configs import (
+    APIConfig,
+    Configs,
+    KafkaConfig,
+    PostgresConfig,
+)
 
 
 def load_configs() -> Configs:

@@ -1,7 +1,10 @@
+from collections.abc import AsyncIterable
+
 from faststream.confluent import KafkaBroker
 
-from applications.infrastructure.broker.config import KafkaConfig
+from applications.infrastructure.configs import KafkaConfig
 
 
-def get_broker(config: KafkaConfig) -> KafkaBroker:
-    return KafkaBroker(f"{config.host}:{config.port}")
+async def get_broker(config: KafkaConfig) -> AsyncIterable[KafkaBroker]:
+    async with KafkaBroker(config.uri) as broker:
+        yield broker

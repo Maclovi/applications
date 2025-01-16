@@ -9,7 +9,7 @@ from applications.presentation.http.middlewares.metrics import (
 if TYPE_CHECKING:
     from fastapi import FastAPI
 
-    from applications.bootstrap.configs import APIConfig
+    from applications.infrastructure.configs import APIConfig
 
 
 def setup_middlewares(app: "FastAPI", /, api_config: "APIConfig") -> None:

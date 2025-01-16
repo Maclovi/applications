@@ -118,8 +118,8 @@ select = ["ALL"]
 ignore = ["D"]
 
 [tool.ruff.lint.per-file-ignores]
-"src/applications/infrastructure/persistence/alembic/**" = ["ERA001", "INP001"]
-"src/applications/application/**" = ["S101"]
+"src/applications/infrastructure/persistence/alembic/env.py" = ["ERA001", "INP001"]
+"src/applications/infrastructure/persistence/alembic/versions/**" = ["ALL"]
 "tests/**" = ["S101"]
 
 [tool.ruff.format]

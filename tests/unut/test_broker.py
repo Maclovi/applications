@@ -4,24 +4,24 @@ import pytest
 from faststream.confluent import KafkaBroker, TestKafkaBroker
 
 from applications.entities.application.services import ApplicationService
-from applications.infrastructure.broker.config import KafkaConfig
-from applications.infrastructure.broker.provider import get_broker
 from applications.infrastructure.broker.publisher import (
     ApplicationPublisherKafka,
+    AppTopic,
 )
+from applications.infrastructure.configs import KafkaConfig
 
 
 @pytest.fixture(scope="session")
 async def broker() -> AsyncIterable[KafkaBroker]:
-    broker = get_broker(KafkaConfig("127.0.0.1", "9092"))
+    broker = KafkaBroker(KafkaConfig("127.0.0.1", "9092").uri)
     async with TestKafkaBroker(broker) as br:
         yield br
 
 
 async def test_publisher_kafka(broker: KafkaBroker) -> None:
-    publisher = ApplicationPublisherKafka(broker.publisher("Test"))
+    app_pub = ApplicationPublisherKafka(broker, AppTopic("Test"))
     new_application = ApplicationService.create_application(
         "Maclovi",
         "Some Description",
     )
-    await publisher.publish(new_application)
+    await app_pub.publish(new_application)
