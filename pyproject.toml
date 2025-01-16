@@ -81,6 +81,7 @@ include = ["src", "tests"]
 ignore = ["**/__pycache__", "**/alembic"]
 pythonVersion = "3.10"
 reportAny = false
+reportUnusedCallResult = false
 
 [tool.mypy]
 packages = ["src", "tests"]
