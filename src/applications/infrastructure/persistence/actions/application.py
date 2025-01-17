@@ -36,7 +36,6 @@ class ApplicationReaderAlchemy(ApplicationReader):
         filters: ApplicationReaderFilters,
         pagination: Pagination,
     ) -> list[ApplicationView]:
-        offset = (pagination.page - 1) * pagination.size
         stmt = (
             select(
                 applications_table.c.id,
@@ -44,7 +43,7 @@ class ApplicationReaderAlchemy(ApplicationReader):
                 applications_table.c.application_description,
                 applications_table.c.created_at,
             )
-            .offset(offset)
+            .offset(pagination.page)
             .limit(pagination.size)
         )
         if filters.user_name:

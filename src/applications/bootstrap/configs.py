@@ -1,15 +1,21 @@
 from os import environ as env
+from typing import NamedTuple
 
 from applications.infrastructure.configs import (
     APIConfig,
-    Configs,
     KafkaConfig,
     PostgresConfig,
 )
 
 
-def load_configs() -> Configs:
-    return Configs(
+class ConfigsComposite(NamedTuple):
+    kafka: KafkaConfig
+    postgres: PostgresConfig
+    web: APIConfig
+
+
+def load_configs() -> ConfigsComposite:
+    return ConfigsComposite(
         kafka=KafkaConfig(
             host=env["KAFKA_HOST"],
             port=env["KAFKA_PORT"],

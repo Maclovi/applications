@@ -66,7 +66,7 @@ def test_application_description(
 ) -> None:
     if exc_class:
         with pytest.raises(exc_class) as excinfo:
-            _ = ApplicationDescription(value)
+            ApplicationDescription(value)
         max_length = 5000
         msg = f"The description length should not exceed {max_length!r}"
         assert excinfo.value.message == msg

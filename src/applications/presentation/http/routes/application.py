@@ -4,7 +4,6 @@ from dishka.integrations.fastapi import DishkaRoute, FromDishka
 from fastapi import APIRouter, Query
 
 from applications.entities.application.models import ApplicationID
-from applications.entities.common.value_objects import Username
 from applications.presentation.http.routes.schemes import GetApplicationsSchema
 from applications.usecases.commands.create_new_application import (
     NewApplicationCommand,
@@ -43,9 +42,7 @@ async def get_applications(
     interactor: FromDishka[GetApplicationsQueryHandler],
 ) -> list[ApplicationView]:
     dto = GetApplicationsQuery(
-        filters=ApplicationReaderFilters(
-            user_name=Username(schema.user_name) if schema.user_name else None,
-        ),
+        filters=ApplicationReaderFilters(user_name=schema.user_name),
         pagination=Pagination(
             page=schema.page,
             size=schema.size,

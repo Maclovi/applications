@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 from applications.entities.common.errors import InvalidUsernameError
 
-validate_username = re.compile(r"[A-Za-z][A-Za-z0-9_]{4,31}").fullmatch
+validate_username_call = re.compile(r"[A-Za-z][A-Za-z0-9_]{4,31}").fullmatch
 
 
 @dataclass(slots=True, frozen=True, eq=True, unsafe_hash=True)
@@ -18,7 +18,7 @@ class Username:
         Example: My_user_name123.
         """
         if (
-            not validate_username(self.value)
+            not validate_username_call(self.value)
             or self.value.endswith("_")
             or "__" in self.value
         ):

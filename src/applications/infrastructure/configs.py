@@ -29,10 +29,3 @@ class KafkaConfig:
     @property
     def uri(self) -> str:
         return f"{self.host}:{self.port}"
-
-
-@dataclass(frozen=True, slots=True)
-class Configs:
-    kafka: KafkaConfig
-    postgres: PostgresConfig
-    web: APIConfig

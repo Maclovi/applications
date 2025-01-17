@@ -2,7 +2,6 @@ from abc import abstractmethod
 from dataclasses import dataclass
 from typing import Protocol
 
-from applications.entities.common.value_objects import Username
 from applications.usecases.common.persistence.filters import Pagination
 from applications.usecases.common.persistence.view_models import (
     ApplicationView,
@@ -11,7 +10,7 @@ from applications.usecases.common.persistence.view_models import (
 
 @dataclass(frozen=True, slots=True)
 class ApplicationReaderFilters:
-    user_name: Username | None = None
+    user_name: str | None = None
 
 
 class ApplicationReader(Protocol):
