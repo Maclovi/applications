@@ -46,12 +46,13 @@ async def test_get_application_query_handler(
         if exc_class is MaxSizePaginationError:
             assert excinfo.value.message == "Max size pagination is 1000"
     else:
-        results = await interactor.handle(dto)
+        response = await interactor.handle(dto)
         fake_application_reader.read_many.assert_called_once_with(
             dto.filters,
             dto.pagination,
         )
-        application_view = results[0]
+        assert response.total == 1
+        application_view = response.applications[0]
         assert application_view.id == 1
         assert application_view.user_name == "Maclovi"
         assert application_view.description == "Some Description"

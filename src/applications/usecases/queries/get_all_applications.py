@@ -24,6 +24,12 @@ class GetApplicationsQuery:
     pagination: Pagination
 
 
+@dataclass(frozen=True, slots=True)
+class ApplicationsResponse:
+    total: int
+    applications: list[ApplicationView]
+
+
 @final
 class GetApplicationsQueryHandler:
     def __init__(self, application_reader: ApplicationReader) -> None:
@@ -32,11 +38,12 @@ class GetApplicationsQueryHandler:
     async def handle(
         self,
         data: GetApplicationsQuery,
-    ) -> list[ApplicationView]:
+    ) -> ApplicationsResponse:
         validate_username(data.filters.user_name)
         validate_max_size_pagination(data.pagination.size)
         data.pagination.page = set_offset(data.pagination)
-        return await self._application_reader.read_many(
+        results = await self._application_reader.read_many(
             data.filters,
             data.pagination,
         )
+        return ApplicationsResponse(total=len(results), applications=results)

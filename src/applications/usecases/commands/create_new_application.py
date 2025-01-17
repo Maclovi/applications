@@ -7,12 +7,15 @@ from applications.usecases.common.persistence.transaction import (
     EntitySaver,
     Transaction,
 )
-from applications.usecases.common.publisher import ApplicationPublisher
+from applications.usecases.common.publisher import (
+    ApplicationPublish,
+    ApplicationPublisher,
+)
 
 
 @dataclass(frozen=True, slots=True)
 class NewApplicationCommand:
-    username: str
+    user_name: str
     description: str
 
 
@@ -32,10 +35,12 @@ class NewApplicationCommandHandler:
 
     async def handle(self, data: NewApplicationCommand) -> ApplicationID:
         new_application = self._application_service.create_application(
-            data.username,
+            data.user_name,
             data.description,
         )
         self._entity_saver.add_one(new_application)
         await self._transaction.commit()
-        await self._application_publisher.publish(new_application)
+
+        dto_application = ApplicationPublish.from_entity(new_application)
+        await self._application_publisher.publish(dto_application)
         return new_application.oid

@@ -4,6 +4,7 @@ from applications.usecases.commands.create_new_application import (
     NewApplicationCommand,
     NewApplicationCommandHandler,
 )
+from applications.usecases.common.publisher import ApplicationPublish
 
 
 async def test_new_application_handler(
@@ -13,7 +14,7 @@ async def test_new_application_handler(
     fake_application_publisher: mock.Mock,
 ) -> None:
     dto = NewApplicationCommand(
-        username="Maclovi",
+        user_name="Maclovi",
         description="Some description",
     )
     interactor = NewApplicationCommandHandler(
@@ -25,14 +26,16 @@ async def test_new_application_handler(
     oid = await interactor.handle(dto)
 
     fake_application_service.create_application.assert_called_once_with(
-        dto.username,
+        dto.user_name,
         dto.description,
     )
     new_application = fake_application_service.create_application(
-        dto.username,
+        dto.user_name,
         dto.description,
     )
     fake_entity_saver.add_one.assert_called_once_with(new_application)
     fake_transaction.commit.assert_called_once()
-    fake_application_publisher.publish.assert_called_once_with(new_application)
+    fake_application_publisher.publish.assert_called_once_with(
+        ApplicationPublish.from_entity(new_application),
+    )
     assert oid is None

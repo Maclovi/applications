@@ -26,7 +26,7 @@ def load_configs() -> ConfigsComposite:
             host=env["POSTGRES_HOST"],
             port=env["POSTGRES_PORT"],
             db_name=env["POSTGRES_DB"],
-            debug=env["POSTGRES_DEBUG"] == "true",
+            debug=env.get("ALCHEMY_DEBUG") == "1",
         ),
         web=APIConfig(
             host=env["UVICORN_HOST"],

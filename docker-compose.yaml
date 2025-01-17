@@ -20,17 +20,22 @@ services:
       - ${KAFKA_HOST}:${KAFKA_PORT}:${KAFKA_PORT}
     volumes:
       - 'kafka_data:/bitnami/kafka'
+    healthcheck:
+      test: ["CMD", "kafka-topics.sh", "--list", "--bootstrap-server", "localhost:9092"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   postgres:
     image: postgres:alpine
     container_name: postgres
     restart: unless-stopped
     environment:
+      - POSTGRES_DB=test
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_HOST=${POSTGRES_HOST}
       - POSTGRES_PORT=${POSTGRES_PORT}
-      - POSTGRES_DB=test
     ports:
       - ${POSTGRES_HOST}:${POSTGRES_PORT}:${POSTGRES_PORT}
     volumes:
@@ -46,8 +51,15 @@ services:
     container_name: web
     restart: always
     environment:
+      - KAFKA_HOST=172.18.0.2
+      - KAFKA_PORT=${KAFKA_PORT}
+      - POSTGRES_DB=test
       - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - UVICORN_HOST=0.0.0.0
+      - UVICORN_PORT=${UVICORN_PORT}
     command: /bin/sh -cx "./start.sh"
     ports:
       - ${UVICORN_HOST}:${UVICORN_PORT}:${UVICORN_PORT}
