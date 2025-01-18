@@ -62,15 +62,15 @@ def broker_provider() -> Provider:
     provider = Provider(scope=Scope.APP)
     provider.provide(get_broker)
     provider.provide(lambda: AppTopic("Kafka"), provides=AppTopic)
-    provider.provide(ApplicationPublisherKafka, provides=ApplicationPublisher)
     return provider
 
 
-def persistence_provider() -> Provider:
+def adapters_provider() -> Provider:
     provider = Provider(scope=Scope.REQUEST)
     provider.provide(TransactionAlchemy, provides=Transaction)
     provider.provide(EntitySaverAlchemy, provides=EntitySaver)
     provider.provide(ApplicationReaderAlchemy, provides=ApplicationReader)
+    provider.provide(ApplicationPublisherKafka, provides=ApplicationPublisher)
     return provider
 
 
@@ -93,7 +93,7 @@ def setup_providers() -> tuple[Provider, ...]:
     return (
         configs_provider(),
         db_provider(),
-        persistence_provider(),
+        adapters_provider(),
         broker_provider(),
         interactors_provider(),
         services_provider(),
