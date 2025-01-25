@@ -1,12 +1,11 @@
-FROM python:3.12-slim AS builder
+FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim AS builder
 WORKDIR /app
 
 COPY ./pyproject.toml ./pyproject.toml
 COPY ./scripts/start.sh ./alembic.ini ./
 COPY ./src ./src
 
-RUN pip install uv \
-    && uv pip install --system --target dependencies .
+RUN uv pip install --system --target dependencies .
 
 FROM python:3.12-slim
 WORKDIR /app

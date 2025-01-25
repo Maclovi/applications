@@ -13,6 +13,5 @@ class Pagination:
     size: int = 10
     order: SortOrder = SortOrder.ASC
 
-
-def set_offset(pagination: Pagination) -> int:
-    return (pagination.page - 1) * pagination.size
+    def set_offset(self) -> None:
+        self.page = (self.page - 1) * self.size

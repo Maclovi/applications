@@ -5,10 +5,7 @@ from applications.usecases.common.persistence.application import (
     ApplicationReader,
     ApplicationReaderFilters,
 )
-from applications.usecases.common.persistence.filters import (
-    Pagination,
-    set_offset,
-)
+from applications.usecases.common.persistence.filters import Pagination
 from applications.usecases.common.persistence.view_models import (
     ApplicationView,
 )
@@ -41,7 +38,7 @@ class GetApplicationsQueryHandler:
     ) -> ApplicationsResponse:
         validate_username(data.filters.user_name)
         validate_max_size_pagination(data.pagination.size)
-        data.pagination.page = set_offset(data.pagination)
+        data.pagination.set_offset()
         results = await self._application_reader.read_many(
             data.filters,
             data.pagination,
