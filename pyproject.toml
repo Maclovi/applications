@@ -32,13 +32,13 @@ dependencies = [
     "uvloop==0.21.*",
     "orjson==3.*",
     "fastapi==0.115.*",
-    "uvicorn==0.31.*",
+    "uvicorn==0.34.*",
     "httptools==0.6.*",
-    "alembic==1.13.*",
+    "alembic==1.15.*",
     "sqlalchemy[asyncio]==2.*",
     "psycopg[binary]==3.*",
-    "python-json-logger==2.*",
-    "faststream[confluent]==0.5.34",
+    "python-json-logger==3.*",
+    "faststream[confluent]==0.5.35",
 ]
 
 [project.optional-dependencies]
